@@ -1,11 +1,5 @@
-# You can change TOOLCHAIN_DIRECTORY if you want to use different toolchain. Shown as below.
+# You can change TOOLCHAIN_DIRECTORY if you want to use different toolchain.
 set(TOOLCHAIN_DIRECTORY "${CMAKE_SOURCE_DIR}/../../../Tools/xpack-arm-none-eabi-gcc-11.3.1-1.1/bin")
-
-# set(TOOLCHAIN_DIRECTORY "C:/Dev/Tools/arm-gnu-toolchain-11.3.rel1/bin")
-# set(TOOLCHAIN_DIRECTORY "C:/Dev/Tools/arm-gnu-toolchain-12.3.rel1/bin")
-# set(TOOLCHAIN_DIRECTORY "C:/Dev/Tools/arm-gnu-toolchain-13.3.rel1/bin")
-# set(TOOLCHAIN_DIRECTORY "C:/Dev/Tools/vcpkg/root/downloads/artifacts/vcpkg-artifacts-arm/compilers.arm.arm.none.eabi.gcc/12.3.1/bin")
-# set(TOOLCHAIN_DIRECTORY "C:/Dev/Tools/vcpkg/root/downloads/artifacts/vcpkg-artifacts-arm/compilers.arm.arm.none.eabi.gcc/13.3.1/bin")
 
 set(CMAKE_C_FLAGS_DEBUG "")
 set(CMAKE_CXX_FLAGS_DEBUG "")
@@ -30,7 +24,7 @@ if(DEFINED TOOLCHAIN_DIRECTORY)
     set(TOOLCHAIN_PREFIX            "${TOOLCHAIN_DIRECTORY}/${TOOLCHAIN_PREFIX}")
 endif()
 
-set(FLAGS                           "-std=gnu11 -fstack-usage -fdata-sections -ffunction-sections -mthumb -Wall -Wno-missing-braces -Wno-format -Wno-strict-aliasing -Wl,--gc-sections")
+set(FLAGS                           "-std=gnu11 -fstack-usage -fdata-sections -ffunction-sections -fmessage-length=0 -fsigned-char -mthumb -Wall -Wno-missing-braces -Wno-format -Wno-strict-aliasing -Wl,--gc-sections")
 set(ASM_FLAGS                       "-x assembler-with-cpp")
 set(CPP_FLAGS                       "-fno-rtti -fno-exceptions -fno-threadsafe-statics")
 

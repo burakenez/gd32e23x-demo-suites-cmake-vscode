@@ -2,11 +2,11 @@
     \file    gd32e23x_i2c.h
     \brief   definitions for the I2C
 
-    \version 2024-02-22, V2.1.0, firmware for GD32E23x
+    \version 2025-02-10, V2.3.0, firmware for GD32E23x
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc.
+    Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -78,6 +78,7 @@ OF SUCH DAMAGE.
 #define I2C_CTL1_BUFIE                BIT(10)                           /*!< buffer interrupt enable */
 #define I2C_CTL1_DMAON                BIT(11)                           /*!< DMA requests enable */
 #define I2C_CTL1_DMALST               BIT(12)                           /*!< DMA last transfer */
+#define I2C_CTL1_RBNECM               BIT(15)                           /*!< RBNE clear mode */
 
 /* I2Cx_SADDR0 */
 #define I2C_SADDR0_ADDRESS0           BIT(0)                            /*!< bit 0 of a 10-bit address */
@@ -269,6 +270,10 @@ typedef enum {
 #define I2C_DMALST_OFF                ((uint32_t)0x00000000U)           /*!< next DMA EOT is not the last transfer */
 #define I2C_DMALST_ON                 I2C_CTL1_DMALST                   /*!< next DMA EOT is the last transfer */
 
+/* RBNE clear mode */
+#define I2C_RBNE_CLEAR_BTC_0          ((uint32_t)0x00000000U)           /*!< RBNE can be cleared when I2C_DATA is read and BTC is cleared */
+#define I2C_RBNE_CLEAR                I2C_CTL1_RBNECM                   /*!< RBNE can be cleared when I2C_DATA is read */
+
 /* I2C PEC configure */
 /* PEC enable */
 #define I2C_PEC_DISABLE              ((uint32_t)0x00000000U)            /*!< PEC calculation off */
@@ -339,6 +344,8 @@ uint8_t i2c_data_receive(uint32_t i2c_periph);
 void i2c_dma_config(uint32_t i2c_periph, uint32_t dmastate);
 /* configure whether next DMA EOT is DMA last transfer or not */
 void i2c_dma_last_transfer_config(uint32_t i2c_periph, uint32_t dmalast);
+/* configure RBNE clear mode */
+void i2c_rbne_clear_config(uint32_t i2c_periph, uint32_t mode);
 /* whether to stretch SCL low when data is not ready in slave mode */
 void i2c_stretch_scl_low_config(uint32_t i2c_periph, uint32_t stretchpara);
 /* whether or not to response to a general call */

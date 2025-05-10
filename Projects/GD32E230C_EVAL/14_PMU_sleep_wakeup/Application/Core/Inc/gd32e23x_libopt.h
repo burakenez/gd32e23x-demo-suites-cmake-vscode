@@ -2,7 +2,7 @@
     \file    gd32e23x_libopt.h
     \brief   library optional for gd32e23x
     
-    \version 2024-02-28, V2.2.0, demo for GD32E230
+    \version 2025-02-10, V2.4.0, demo for GD32E23x
 */
 
 /*

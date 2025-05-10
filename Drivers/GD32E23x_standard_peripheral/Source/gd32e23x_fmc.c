@@ -2,33 +2,33 @@
     \file    gd32e23x_fmc.c
     \brief   FMC driver
 
-    \version 2024-02-22, V2.1.0, firmware for GD32E23x
+    \version 2025-02-10, V2.3.0, firmware for GD32E23x
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc.
+    Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
-    Redistribution and use in source and binary forms, with or without modification, 
+    Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
 
-    1. Redistributions of source code must retain the above copyright notice, this 
+    1. Redistributions of source code must retain the above copyright notice, this
        list of conditions and the following disclaimer.
-    2. Redistributions in binary form must reproduce the above copyright notice, 
-       this list of conditions and the following disclaimer in the documentation 
+    2. Redistributions in binary form must reproduce the above copyright notice,
+       this list of conditions and the following disclaimer in the documentation
        and/or other materials provided with the distribution.
-    3. Neither the name of the copyright holder nor the names of its contributors 
-       may be used to endorse or promote products derived from this software without 
+    3. Neither the name of the copyright holder nor the names of its contributors
+       may be used to endorse or promote products derived from this software without
        specific prior written permission.
 
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
-NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
 OF SUCH DAMAGE.
 */
 
@@ -48,7 +48,7 @@ OF SUCH DAMAGE.
 */
 void fmc_unlock(void)
 {
-    if((RESET != (FMC_CTL & FMC_CTL_LK))){
+    if((RESET != (FMC_CTL & FMC_CTL_LK))) {
         /* write the FMC key */
         FMC_KEY = UNLOCK_KEY0;
         FMC_KEY = UNLOCK_KEY1;
@@ -80,7 +80,7 @@ void fmc_lock(void)
 void fmc_wscnt_set(uint8_t wscnt)
 {
     uint32_t reg;
-    
+
     reg = FMC_WS;
     /* set the wait state counter value */
     reg &= ~FMC_WS_WSCNT;
@@ -125,8 +125,8 @@ void fmc_prefetch_disable(void)
 fmc_state_enum fmc_page_erase(uint32_t page_address)
 {
     fmc_state_enum fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
-  
-    if(FMC_READY == fmc_state){ 
+
+    if(FMC_READY == fmc_state) {
         /* start page erase */
         FMC_CTL |= FMC_CTL_PER;
         FMC_ADDR = page_address;
@@ -134,11 +134,11 @@ fmc_state_enum fmc_page_erase(uint32_t page_address)
 
         /* wait for the FMC ready */
         fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
-    
+
         /* reset the PER bit */
         FMC_CTL &= ~FMC_CTL_PER;
     }
-    
+
     /* return the FMC state  */
     return fmc_state;
 }
@@ -159,25 +159,25 @@ fmc_state_enum fmc_page_erase(uint32_t page_address)
 fmc_state_enum fmc_mass_erase(void)
 {
     fmc_state_enum fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
-  
-    if(FMC_READY == fmc_state){ 
+
+    if(FMC_READY == fmc_state) {
         /* start chip erase */
-        FMC_CTL |= FMC_CTL_MER; 
+        FMC_CTL |= FMC_CTL_MER;
         FMC_CTL |= FMC_CTL_START;
-    
+
         /* wait for the FMC ready */
         fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
 
         /* reset the MER bit */
         FMC_CTL &= ~FMC_CTL_MER;
     }
-    
+
     /* return the fmc state  */
     return fmc_state;
 }
 
 /*!
-    \brief      program a double word at the corresponding address in main flash, this 
+    \brief      program a double word at the corresponding address in main flash, this
                 function also applies to OTP(address 0x1FFF_7000~0x1FFF_73FF) programming
     \param[in]  address: address to program
     \param[in]  data: double word to program
@@ -194,33 +194,33 @@ fmc_state_enum fmc_mass_erase(void)
 fmc_state_enum fmc_doubleword_program(uint32_t address, uint64_t data)
 {
     uint32_t data0, data1;
-    
+
     fmc_state_enum fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
 
     data0 = (uint32_t)(data & 0xFFFFFFFFU);
-    data1 = (uint32_t)((data>>32U) & 0xFFFFFFFFU);
-    
+    data1 = (uint32_t)((data >> 32U) & 0xFFFFFFFFU);
+
     /* configure program width */
     FMC_WS |= FMC_WS_PGW;
-    if(FMC_READY == fmc_state){ 
+    if(FMC_READY == fmc_state) {
         /* set the PG bit to start program */
-        FMC_CTL |= FMC_CTL_PG; 
+        FMC_CTL |= FMC_CTL_PG;
         REG32(address) = data0;
-        REG32(address+4U) = data1;
+        REG32(address + 4U) = data1;
         /* wait for the FMC ready */
         fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
-    
+
         /* reset the PG bit */
-        FMC_CTL &= ~FMC_CTL_PG; 
+        FMC_CTL &= ~FMC_CTL_PG;
     }
     FMC_WS &= ~(FMC_WS_PGW);
-  
+
     /* return the FMC state */
     return fmc_state;
 }
 
 /*!
-    \brief      program a word at the corresponding address in main flash, this function 
+    \brief      program a word at the corresponding address in main flash, this function
                 also applies to OTP(address 0x1FFF_7000~0x1FFF_73FF) programming
     \param[in]  address: address to program
     \param[in]  data: word to program
@@ -237,19 +237,19 @@ fmc_state_enum fmc_doubleword_program(uint32_t address, uint64_t data)
 fmc_state_enum fmc_word_program(uint32_t address, uint32_t data)
 {
     fmc_state_enum fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
-    
-    if(FMC_READY == fmc_state){ 
+
+    if(FMC_READY == fmc_state) {
         /* set the PG bit to start program */
-        FMC_CTL |= FMC_CTL_PG; 
-  
+        FMC_CTL |= FMC_CTL_PG;
+
         REG32(address) = data;
         /* wait for the FMC ready */
         fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
-    
+
         /* reset the PG bit */
-        FMC_CTL &= ~FMC_CTL_PG; 
-    } 
-  
+        FMC_CTL &= ~FMC_CTL_PG;
+    }
+
     /* return the FMC state */
     return fmc_state;
 }
@@ -263,13 +263,13 @@ fmc_state_enum fmc_word_program(uint32_t address, uint32_t data)
 */
 void ob_unlock(void)
 {
-    if(RESET == (FMC_CTL & FMC_CTL_OBWEN)){
+    if(RESET == (FMC_CTL & FMC_CTL_OBWEN)) {
         /* write the FMC key */
         FMC_OBKEY = UNLOCK_KEY0;
         FMC_OBKEY = UNLOCK_KEY1;
     }
     /* wait until OBWEN bit is set by hardware */
-    while(RESET == (FMC_CTL & FMC_CTL_OBWEN)){
+    while(RESET == (FMC_CTL & FMC_CTL_OBWEN)) {
     }
 }
 
@@ -331,49 +331,49 @@ fmc_state_enum ob_erase(void)
     uint32_t val;
     uint32_t fmc_plevel = ob_obstat_plevel_get();
     fmc_state_enum fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
-    
+
     /* get the original option byte security protection code */
-    if(OB_OBSTAT_PLEVEL_NO == fmc_plevel){
+    if(OB_OBSTAT_PLEVEL_NO == fmc_plevel) {
         fmc_spc = FMC_NSPC;
-    }else if(OB_OBSTAT_PLEVEL_LOW == fmc_plevel){
+    } else if(OB_OBSTAT_PLEVEL_LOW == fmc_plevel) {
         fmc_spc = FMC_LSPC;
-    }else{
+    } else {
         fmc_spc = FMC_HSPC;
         fmc_state = FMC_OB_HSPC;
     }
     val = HIGH_16BITS_MASK | (uint32_t)fmc_spc;
-    
-    if(FMC_READY == fmc_state){
+
+    if(FMC_READY == fmc_state) {
         /* start erase the option byte */
         FMC_CTL |= FMC_CTL_OBER;
         FMC_CTL |= FMC_CTL_START;
 
         /* wait for the FMC ready */
         fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
-    
-        if(FMC_READY == fmc_state){
+
+        if(FMC_READY == fmc_state) {
             /* reset the OBER bit */
             FMC_CTL &= ~FMC_CTL_OBER;
-       
+
             /* set the OBPG bit */
             FMC_CTL |= FMC_CTL_OBPG;
-            
+
             /* restore the last get option byte security protection code */
             OB_SPC_USER = val;
 
             /* wait for the FMC ready */
             fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
- 
-            if(FMC_TOERR != fmc_state){
+
+            if(FMC_TOERR != fmc_state) {
                 /* reset the OBPG bit */
                 FMC_CTL &= ~FMC_CTL_OBPG;
             }
-        }else{
-            if(FMC_TOERR != fmc_state){
+        } else {
+            if(FMC_TOERR != fmc_state) {
                 /* reset the OBER bit */
                 FMC_CTL &= ~FMC_CTL_OBER;
             }
-        }  
+        }
     }
     /* return the FMC state */
     return fmc_state;
@@ -398,36 +398,36 @@ fmc_state_enum ob_write_protection_enable(uint32_t ob_wp)
     uint32_t ob_wrp_val = 0U;
 
     fmc_state_enum fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
-    
+
     ob_wp = ~ob_wp;
-    ob_wrp_val |= (uint32_t)ob_wp&0x00FFU;
-    ob_wrp_val |= (((uint32_t)ob_wp&0xFF00U)>>8U) << 16U;
-    
-    if(FMC_READY == fmc_state){
+    ob_wrp_val |= (uint32_t)ob_wp & 0x00FFU;
+    ob_wrp_val |= (((uint32_t)ob_wp & 0xFF00U) >> 8U) << 16U;
+
+    if(FMC_READY == fmc_state) {
         /* set the OBPG bit*/
         FMC_CTL |= FMC_CTL_OBPG;
 
-        if(0xFFFFFFFFU != ob_wrp_val){
+        if(0xFFFFFFFFU != ob_wrp_val) {
             OB_WP = ob_wrp_val;
-    
+
             /* wait for the FMC ready */
             fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
         }
-        
-        ob_wrp_val |= (uint32_t)(ob_wp>>16)&0x00FFU;
-        ob_wrp_val |= (((uint32_t)(ob_wp>>16)&0xFF00U)>>8U) << 16U;
-        if(0xFFFFFFFFU != ob_wrp_val){
+
+        ob_wrp_val |= (uint32_t)(ob_wp >> 16) & 0x00FFU;
+        ob_wrp_val |= (((uint32_t)(ob_wp >> 16) & 0xFF00U) >> 8U) << 16U;
+        if(0xFFFFFFFFU != ob_wrp_val) {
             REG32((OB) + 0x0CU) = ob_wrp_val;
-    
+
             /* wait for the FMC ready */
             fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
         }
-        
-        if(FMC_TOERR != fmc_state){
+
+        if(FMC_TOERR != fmc_state) {
             /* reset the OBPG bit */
             FMC_CTL &= ~FMC_CTL_OBPG;
         }
-    } 
+    }
     /* return the FMC state */
     return fmc_state;
 }
@@ -455,40 +455,40 @@ fmc_state_enum ob_security_protection_config(uint16_t ob_spc)
 
     val = option_byte_value_get(OB_SPC_USER_ADDRESS);
     /* the OB_SPC byte cannot be reprogrammed if protection level is high */
-    if(OB_OBSTAT_PLEVEL_HIGH == ob_obstat_plevel_get()){
+    if(OB_OBSTAT_PLEVEL_HIGH == ob_obstat_plevel_get()) {
         fmc_state = FMC_OB_HSPC;
     }
-    
+
     val &= ~LOW_16BITS_MASK;
     val |= (uint32_t)ob_spc;
 
-    if(FMC_READY == fmc_state){
+    if(FMC_READY == fmc_state) {
         /* start erase the option byte */
         FMC_CTL |= FMC_CTL_OBER;
         FMC_CTL |= FMC_CTL_START;
-    
+
         /* wait for the FMC ready */
         fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
-    
-        if(FMC_READY == fmc_state){
-        
+
+        if(FMC_READY == fmc_state) {
+
             /* reset the OBER bit */
             FMC_CTL &= ~FMC_CTL_OBER;
-      
+
             /* enable the option bytes programming */
             FMC_CTL |= FMC_CTL_OBPG;
-       
+
             OB_SPC_USER = val;
 
             /* wait for the FMC ready */
-            fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT); 
-    
-            if(FMC_TOERR != fmc_state){
+            fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
+
+            if(FMC_TOERR != fmc_state) {
                 /* reset the OBPG bit */
                 FMC_CTL &= ~FMC_CTL_OBPG;
             }
-        }else{
-            if(FMC_TOERR != fmc_state){
+        } else {
+            if(FMC_TOERR != fmc_state) {
                 /* reset the OBER bit */
                 FMC_CTL &= ~FMC_CTL_OBER;
             }
@@ -525,40 +525,40 @@ fmc_state_enum ob_user_write(uint8_t ob_user)
     uint32_t val_spc_user;
     /* check whether FMC is ready or not */
     fmc_state_enum fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
-    
+
     val_spc_user = option_byte_value_get(OB_SPC_USER_ADDRESS);
-    
+
     val_spc_user &= ~HIGH_16BITS_MASK;
-    
-    val_spc_user |= ((uint32_t)ob_user<<16U);
-    
-    if(FMC_READY == fmc_state){
+
+    val_spc_user |= ((uint32_t)ob_user << 16U);
+
+    if(FMC_READY == fmc_state) {
         /* start erase the option byte */
         FMC_CTL |= FMC_CTL_OBER;
         FMC_CTL |= FMC_CTL_START;
-    
+
         /* wait for the FMC ready */
         fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
-    
-        if(FMC_READY == fmc_state){
-        
+
+        if(FMC_READY == fmc_state) {
+
             /* reset the OBER bit */
             FMC_CTL &= ~FMC_CTL_OBER;
-      
+
             /* enable the option bytes programming */
             FMC_CTL |= FMC_CTL_OBPG;
-       
+
             OB_SPC_USER = val_spc_user;
-            
+
             /* wait for the FMC ready */
-            fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT); 
-    
-            if(FMC_TOERR != fmc_state){
+            fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
+
+            if(FMC_TOERR != fmc_state) {
                 /* reset the OBPG bit */
                 FMC_CTL &= ~FMC_CTL_OBPG;
             }
-        }else{
-            if(FMC_TOERR != fmc_state){
+        } else {
+            if(FMC_TOERR != fmc_state) {
                 /* reset the OBER bit */
                 FMC_CTL &= ~FMC_CTL_OBER;
             }
@@ -586,18 +586,18 @@ fmc_state_enum ob_data_program(uint16_t data)
     fmc_state_enum fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
     uint32_t val = 0U;
 
-    val |= (uint32_t)data&0x00FFU;
-    val |= (((uint32_t)data&0xFF00U)>>8U) << 16U;
-    
-    if(FMC_READY == fmc_state){
+    val |= (uint32_t)data & 0x00FFU;
+    val |= (((uint32_t)data & 0xFF00U) >> 8U) << 16U;
+
+    if(FMC_READY == fmc_state) {
         /* set the OBPG bit */
-        FMC_CTL |= FMC_CTL_OBPG; 
+        FMC_CTL |= FMC_CTL_OBPG;
         OB_DATA = val;
-    
+
         /* wait for the FMC ready */
         fmc_state = fmc_ready_wait(FMC_TIMEOUT_COUNT);
-    
-        if(FMC_TOERR != fmc_state){
+
+        if(FMC_TOERR != fmc_state) {
             /* reset the OBPG bit */
             FMC_CTL &= ~FMC_CTL_OBPG;
         }
@@ -696,11 +696,11 @@ FlagStatus fmc_flag_get(uint32_t flag)
 {
     FlagStatus status = RESET;
 
-    if(FMC_STAT & flag){
+    if(FMC_STAT & flag) {
         status = SET;
     }
     /* return the state of corresponding FMC flag */
-    return status; 
+    return status;
 }
 
 /*!
@@ -734,25 +734,25 @@ void fmc_flag_clear(uint32_t flag)
 FlagStatus fmc_interrupt_flag_get(uint32_t int_flag)
 {
     uint32_t intenable = 0U, flagstatus = 0U;
-    
-    if(FMC_INT_FLAG_END == int_flag){
+
+    if(FMC_INT_FLAG_END == int_flag) {
         /* get the interrupt enable bit status */
         intenable = FMC_CTL & FMC_INTEN_END;
         /* get the corresponding flag bit status */
         flagstatus = FMC_STAT & int_flag;
-        if(intenable && flagstatus){
+        if(intenable && flagstatus) {
             return SET;
-        }else{
+        } else {
             return RESET;
         }
-    }else{
+    } else {
         /* get the interrupt enable bit status */
         intenable = FMC_CTL & FMC_INTEN_ERR;
         /* get the corresponding flag bit status */
         flagstatus = FMC_STAT & int_flag;
-        if(intenable && flagstatus){
+        if(intenable && flagstatus) {
             return SET;
-        }else{
+        } else {
             return RESET;
         }
     }
@@ -784,15 +784,15 @@ void fmc_interrupt_flag_clear(uint32_t int_flag)
 fmc_state_enum fmc_state_get(void)
 {
     fmc_state_enum fmc_state = FMC_READY;
-  
-    if((uint32_t)0x00U != (FMC_STAT & FMC_STAT_BUSY)){
+
+    if((uint32_t)0x00U != (FMC_STAT & FMC_STAT_BUSY)) {
         fmc_state = FMC_BUSY;
-    }else{
-        if((uint32_t)0x00U != (FMC_STAT & FMC_STAT_WPERR)){
+    } else {
+        if((uint32_t)0x00U != (FMC_STAT & FMC_STAT_WPERR)) {
             fmc_state = FMC_WPERR;
-        }else{
-            if((uint32_t)0x00U != (FMC_STAT & FMC_STAT_PGERR)){
-                fmc_state = FMC_PGERR; 
+        } else {
+            if((uint32_t)0x00U != (FMC_STAT & FMC_STAT_PGERR)) {
+                fmc_state = FMC_PGERR;
             }
         }
     }
@@ -809,15 +809,15 @@ fmc_state_enum fmc_state_get(void)
 fmc_state_enum fmc_ready_wait(uint32_t timeout)
 {
     fmc_state_enum fmc_state = FMC_BUSY;
-  
+
     /* wait for FMC ready */
-    do{
+    do {
         /* get FMC state */
         fmc_state = fmc_state_get();
         timeout--;
-    }while((FMC_BUSY == fmc_state) && (0U != timeout));
-  
-    if(FMC_BUSY == fmc_state){
+    } while((FMC_BUSY == fmc_state) && (0U != timeout));
+
+    if(FMC_BUSY == fmc_state) {
         fmc_state = FMC_TOERR;
     }
     /* return the FMC state */

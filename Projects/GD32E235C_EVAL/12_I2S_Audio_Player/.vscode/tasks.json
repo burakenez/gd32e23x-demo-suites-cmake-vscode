@@ -16,7 +16,7 @@
         {
             "label": "Flash MCU",
             "type": "shell",
-            "command": "'${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/bin/openocd.exe' -s '${workspaceFolder}' -f '${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/scripts/target/openocd_gdlink_gd32e23x.cfg' -c 'init; reset halt; flash write_image erase ${command:cmake.launchTargetFilename}; reset; exit'",
+            "command": "'${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/bin/openocd.exe' -s '${workspaceFolder}' -f '${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/scripts/target/${OPENOCD_TARGET_SCRIPT_FILE}' -c 'init; reset halt; flash write_image erase ${command:cmake.launchTargetFilename}; reset; exit'",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -35,7 +35,7 @@
         {
             "label": "Reset MCU",
             "type": "shell",
-            "command": "'${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/bin/openocd.exe' -s '${workspaceFolder}' -f '${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/scripts/target/openocd_gdlink_gd32e23x.cfg' -c 'init; reset; exit'",
+            "command": "'${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/bin/openocd.exe' -s '${workspaceFolder}' -f '${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/scripts/target/${OPENOCD_TARGET_SCRIPT_FILE}' -c 'init; reset; exit'",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -54,7 +54,7 @@
         {
             "label": "Mass Erase MCU",
             "type": "shell",
-            "command": "'${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/bin/openocd.exe' -s '${workspaceFolder}' -f '${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/scripts/target/openocd_gdlink_gd32e23x.cfg' -c 'init; reset halt; gd32e23x mass_erase 0; exit'",
+            "command": "'${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/bin/openocd.exe' -s '${workspaceFolder}' -f '${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/scripts/target/${OPENOCD_TARGET_SCRIPT_FILE}' -c 'init; reset halt; ${OPENOCD_TARGET_SCRIPT_MCU_NAME} mass_erase 0; exit'",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -74,7 +74,7 @@
             "label": "OpenOCD Server",
             "type": "shell",
             "command": [
-                "'${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/bin/openocd.exe' -s '${workspaceFolder}' -f '${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/scripts/target/openocd_gdlink_gd32e23x.cfg'"
+                "'${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/bin/openocd.exe' -s '${workspaceFolder}' -f '${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/scripts/target/${OPENOCD_TARGET_SCRIPT_FILE}'"
             ],
             "group": {
                 "kind": "build",

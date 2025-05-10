@@ -1,12 +1,12 @@
 /*!
     \file    gd32e230v_start.h
-    \brief   definitions for GD32E230G_START's leds, keys hardware resources
+    \brief   definitions for GD32E230V_START's leds, keys hardware resources
 
-    \version 2024-02-28, V2.2.0, demo for GD32E230
+    \version 2025-02-10, V2.4.0, demo for GD32E23x
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc.
+    Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -43,7 +43,8 @@ extern "C" {
 
 /* exported types */
 typedef enum {
-    LED1 = 0
+    LED1 = 0,
+    LED2 = 1
 } led_typedef_enum;
 
 typedef enum {
@@ -57,23 +58,27 @@ typedef enum {
 
 
 /* eval board low layer led */
-#define LEDn                             1U
+#define LEDn                             2U
 
 #define LED1_PIN                         GPIO_PIN_1
 #define LED1_GPIO_PORT                   GPIOA
 #define LED1_GPIO_CLK                    RCU_GPIOA
 
+#define LED2_PIN                         GPIO_PIN_2
+#define LED2_GPIO_PORT                   GPIOA
+#define LED2_GPIO_CLK                    RCU_GPIOA
+
 /* eval board low layer button */
 #define KEYn                             1U
 
-/* user push-button */
-#define USER_KEY_PIN                     GPIO_PIN_0
-#define USER_KEY_GPIO_PORT               GPIOA
-#define USER_KEY_GPIO_CLK                RCU_GPIOA
-#define USER_KEY_EXTI_LINE               EXTI_0
-#define USER_KEY_EXTI_PORT_SOURCE        EXTI_SOURCE_GPIOA
-#define USER_KEY_EXTI_PIN_SOURCE         EXTI_SOURCE_PIN0
-#define USER_KEY_EXTI_IRQn               EXTI0_1_IRQn
+/* USER key */
+#define USER_KEY_PIN                   GPIO_PIN_0
+#define USER_KEY_GPIO_PORT             GPIOA
+#define USER_KEY_GPIO_CLK              RCU_GPIOA
+#define USER_KEY_EXTI_LINE             EXTI_0
+#define USER_KEY_EXTI_PORT_SOURCE      EXTI_SOURCE_GPIOA
+#define USER_KEY_EXTI_PIN_SOURCE       EXTI_SOURCE_PIN0
+#define USER_KEY_EXTI_IRQn             EXTI0_1_IRQn
 
 /* function declarations */
 /* configure led GPIO */

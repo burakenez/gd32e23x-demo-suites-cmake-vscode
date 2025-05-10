@@ -1,12 +1,12 @@
 /*!
-    \file    gd32f23x_cmp.c
+    \file    gd32e23x_cmp.c
     \brief   CMP driver
 
-    \version 2024-02-22, V2.1.0, firmware for GD32E23x
+    \version 2025-02-10, V2.3.0, firmware for GD32E23x
 */
 
 /*
-    Copyright (c) 2022, GigaDevice Semiconductor Inc.
+    Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -43,9 +43,9 @@ OF SUCH DAMAGE.
 */
 void cmp_deinit(cmp_enum cmp_periph)
 {
-    if(CMP0 == cmp_periph){
+    if(CMP0 == cmp_periph) {
         CMP_CS &= ((uint32_t)0xFFFF0000U);
-    }else{
+    } else {
     }
 }
 
@@ -65,7 +65,8 @@ void cmp_deinit(cmp_enum cmp_periph)
       \arg        CMP_INVERTING_INPUT_VREFINT: VREFINT input
       \arg        CMP_INVERTING_INPUT_PA4: PA4 input
       \arg        CMP_INVERTING_INPUT_PA5: PA5 input
-      \arg        CMP_INVERTING_INPUT_PA0_PA2: PA0 for CMP0 or PA2 for CMP1 as inverting input
+      \arg        CMP_INVERTING_INPUT_PA0: PA0 input
+      \arg        CMP_INVERTING_INPUT_PA2: PA2 input
     \param[in]  output_hysteresis
       \arg        CMP_HYSTERESIS_NO: output no hysteresis
       \arg        CMP_HYSTERESIS_LOW: output low hysteresis
@@ -78,13 +79,13 @@ void cmp_mode_init(cmp_enum cmp_periph, uint32_t operating_mode, uint32_t invert
 {
     uint32_t temp = 0U;
 
-    if(CMP0 == cmp_periph){
+    if(CMP0 == cmp_periph) {
         /* initialize comparator 0 mode */
         temp = CMP_CS;
         temp &= ~(uint32_t)(CMP_CS_CMP0M | CMP_CS_CMP0MSEL | CMP_CS_CMP0HST);
         temp |= (uint32_t)(operating_mode | inverting_input | output_hysteresis);
         CMP_CS = temp;
-    }else{
+    } else {
     }
 }
 
@@ -109,19 +110,19 @@ void cmp_output_init(cmp_enum cmp_periph, uint32_t output_selection, uint32_t ou
 {
     uint32_t temp = 0U;
 
-    if(CMP0 == cmp_periph){
+    if(CMP0 == cmp_periph) {
         /* initialize comparator 0 output */
         temp = CMP_CS;
         temp &= ~(uint32_t)CMP_CS_CMP0OSEL;
         temp |= (uint32_t)output_selection;
         /* output polarity */
-        if(CMP_OUTPUT_POLARITY_INVERTED == output_polarity){
+        if(CMP_OUTPUT_POLARITY_INVERTED == output_polarity) {
             temp |= (uint32_t)CMP_CS_CMP0PL;
-        }else{
+        } else {
             temp &= ~(uint32_t)CMP_CS_CMP0PL;
         }
         CMP_CS = temp;
-    }else{
+    } else {
     }
 }
 
@@ -134,9 +135,9 @@ void cmp_output_init(cmp_enum cmp_periph, uint32_t output_selection, uint32_t ou
 */
 void cmp_enable(cmp_enum cmp_periph)
 {
-    if(CMP0 == cmp_periph){
+    if(CMP0 == cmp_periph) {
         CMP_CS |= (uint32_t)CMP_CS_CMP0EN;
-    }else{
+    } else {
     }
 }
 
@@ -149,9 +150,9 @@ void cmp_enable(cmp_enum cmp_periph)
 */
 void cmp_disable(cmp_enum cmp_periph)
 {
-    if(CMP0 == cmp_periph){
+    if(CMP0 == cmp_periph) {
         CMP_CS &= ~(uint32_t)CMP_CS_CMP0EN;
-    }else{
+    } else {
     }
 }
 
@@ -186,10 +187,10 @@ void cmp_switch_disable(void)
 */
 void cmp_lock_enable(cmp_enum cmp_periph)
 {
-    if(CMP0 == cmp_periph){
+    if(CMP0 == cmp_periph) {
         /* lock CMP0 */
         CMP_CS |= (uint32_t)CMP_CS_CMP0LK;
-    }else{
+    } else {
     }
 }
 
@@ -205,7 +206,7 @@ uint32_t cmp_output_level_get(cmp_enum cmp_periph)
     /* get output level of CMP0 */
     if((uint32_t)RESET != (CMP_CS & CMP_CS_CMP0O)) {
         return CMP_OUTPUTLEVEL_HIGH;
-    }else{
+    } else {
         return CMP_OUTPUTLEVEL_LOW;
     }
 }

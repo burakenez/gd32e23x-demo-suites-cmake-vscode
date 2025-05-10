@@ -1,34 +1,34 @@
 /*!
     \file    gd32e23x_rcu.c
     \brief   RCU driver
-    
-    \version 2024-02-22, V2.1.0, firmware for GD32E23x
+
+    \version 2025-02-10, V2.3.0, firmware for GD32E23x
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc.
+    Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
-    Redistribution and use in source and binary forms, with or without modification, 
+    Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
 
-    1. Redistributions of source code must retain the above copyright notice, this 
+    1. Redistributions of source code must retain the above copyright notice, this
        list of conditions and the following disclaimer.
-    2. Redistributions in binary form must reproduce the above copyright notice, 
-       this list of conditions and the following disclaimer in the documentation 
+    2. Redistributions in binary form must reproduce the above copyright notice,
+       this list of conditions and the following disclaimer in the documentation
        and/or other materials provided with the distribution.
-    3. Neither the name of the copyright holder nor the names of its contributors 
-       may be used to endorse or promote products derived from this software without 
+    3. Neither the name of the copyright holder nor the names of its contributors
+       may be used to endorse or promote products derived from this software without
        specific prior written permission.
 
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
-NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
 OF SUCH DAMAGE.
 */
 
@@ -53,12 +53,12 @@ void rcu_deinit(void)
 {
     /* enable IRC8M */
     RCU_CTL0 |= RCU_CTL0_IRC8MEN;
-    while(0U == (RCU_CTL0 & RCU_CTL0_IRC8MSTB)){
+    while(0U == (RCU_CTL0 & RCU_CTL0_IRC8MSTB)) {
     }
     RCU_CFG0 &= ~RCU_CFG0_SCS;
     RCU_CTL0 &= ~(RCU_CTL0_HXTALEN | RCU_CTL0_CKMEN | RCU_CTL0_PLLEN | RCU_CTL0_HXTALBPS);
     /* reset RCU */
-    RCU_CFG0 &= ~(RCU_CFG0_SCS | RCU_CFG0_AHBPSC | RCU_CFG0_APB1PSC | RCU_CFG0_APB2PSC |\
+    RCU_CFG0 &= ~(RCU_CFG0_SCS | RCU_CFG0_AHBPSC | RCU_CFG0_APB1PSC | RCU_CFG0_APB2PSC | \
                   RCU_CFG0_ADCPSC | RCU_CFG0_CKOUTSEL | RCU_CFG0_CKOUTDIV | RCU_CFG0_PLLDV);
     RCU_CFG0 &= ~(RCU_CFG0_PLLSEL | RCU_CFG0_PLLMF | RCU_CFG0_PLLMF4 | RCU_CFG0_PLLDV);
     RCU_CFG1 &= ~(RCU_CFG1_PREDV);
@@ -326,7 +326,7 @@ void rcu_adc_clock_config(rcu_adc_clock_enum ck_adc)
     RCU_CFG2 &= ~(RCU_CFG2_ADCSEL | RCU_CFG2_IRC28MDIV | RCU_CFG2_ADCPSC2);
 
     /* set the ADC clock according to ck_adc */
-    switch(ck_adc){
+    switch(ck_adc) {
     case RCU_ADCCK_IRC28M_DIV2:
         RCU_CFG2 &= ~RCU_CFG2_IRC28MDIV;
         RCU_CFG2 &= ~RCU_CFG2_ADCSEL;
@@ -348,25 +348,25 @@ void rcu_adc_clock_config(rcu_adc_clock_enum ck_adc)
         RCU_CFG0 |= RCU_ADC_CKAPB2_DIV4;
         RCU_CFG2 |= RCU_CFG2_ADCSEL;
         break;
-    case RCU_ADCCK_AHB_DIV5: 
+    case RCU_ADCCK_AHB_DIV5:
         RCU_CFG0 |= RCU_ADC_CKAPB2_DIV4;
         RCU_CFG2 |= RCU_CFG2_ADCPSC2;
         RCU_CFG2 |= RCU_CFG2_ADCSEL;
         break;
-    case RCU_ADCCK_APB2_DIV6: 
+    case RCU_ADCCK_APB2_DIV6:
         RCU_CFG0 |= RCU_ADC_CKAPB2_DIV6;
         RCU_CFG2 |= RCU_CFG2_ADCSEL;
         break;
-    case RCU_ADCCK_AHB_DIV7: 
+    case RCU_ADCCK_AHB_DIV7:
         RCU_CFG0 |= RCU_ADC_CKAPB2_DIV6;
         RCU_CFG2 |= RCU_CFG2_ADCPSC2;
         RCU_CFG2 |= RCU_CFG2_ADCSEL;
         break;
-    case RCU_ADCCK_APB2_DIV8: 
+    case RCU_ADCCK_APB2_DIV8:
         RCU_CFG0 |= RCU_ADC_CKAPB2_DIV8;
         RCU_CFG2 |= RCU_CFG2_ADCSEL;
         break;
-    case RCU_ADCCK_AHB_DIV9: 
+    case RCU_ADCCK_AHB_DIV9:
         RCU_CFG0 |= RCU_ADC_CKAPB2_DIV8;
         RCU_CFG2 |= RCU_CFG2_ADCPSC2;
         RCU_CFG2 |= RCU_CFG2_ADCSEL;
@@ -389,7 +389,7 @@ void rcu_adc_clock_config(rcu_adc_clock_enum ck_adc)
       \arg        RCU_CKOUTSRC_HXTAL: HXTAL selected
       \arg        RCU_CKOUTSRC_CKPLL_DIV1: CK_PLL selected
       \arg        RCU_CKOUTSRC_CKPLL_DIV2: CK_PLL/2 selected
-    \param[in]  ckout_div: CK_OUT divider 
+    \param[in]  ckout_div: CK_OUT divider
       \arg        RCU_CKOUT_DIVx(x=1,2,4,8,16,32,64,128): CK_OUT is divided by x
     \param[out] none
     \retval     none
@@ -510,79 +510,79 @@ ErrStatus rcu_osci_stab_wait(rcu_osci_type_enum osci)
     uint32_t stb_cnt = 0U;
     ErrStatus reval = ERROR;
     FlagStatus osci_stat = RESET;
-    switch(osci){
+    switch(osci) {
     case RCU_HXTAL:
-         /* wait until HXTAL is stabilization and osci_stat is not more than timeout */
-        while((RESET == osci_stat) && (HXTAL_STARTUP_TIMEOUT != stb_cnt)){
+        /* wait until HXTAL is stabilization and osci_stat is not more than timeout */
+        while((RESET == osci_stat) && (HXTAL_STARTUP_TIMEOUT != stb_cnt)) {
             osci_stat = rcu_flag_get(RCU_FLAG_HXTALSTB);
             stb_cnt++;
         }
         /* check whether flag is set or not */
-        if(RESET != rcu_flag_get(RCU_FLAG_HXTALSTB)){
+        if(RESET != rcu_flag_get(RCU_FLAG_HXTALSTB)) {
             reval = SUCCESS;
         }
         break;
-        
+
     /* wait LXTAL stable */
     case RCU_LXTAL:
-        while((RESET == osci_stat) && (LXTAL_STARTUP_TIMEOUT != stb_cnt)){
+        while((RESET == osci_stat) && (LXTAL_STARTUP_TIMEOUT != stb_cnt)) {
             osci_stat = rcu_flag_get(RCU_FLAG_LXTALSTB);
             stb_cnt++;
         }
         /* check whether flag is set or not */
-        if(RESET != rcu_flag_get(RCU_FLAG_LXTALSTB)){
+        if(RESET != rcu_flag_get(RCU_FLAG_LXTALSTB)) {
             reval = SUCCESS;
         }
         break;
 
     /* wait IRC8M stable */
     case RCU_IRC8M:
-        while((RESET == osci_stat) && (IRC8M_STARTUP_TIMEOUT != stb_cnt)){
+        while((RESET == osci_stat) && (IRC8M_STARTUP_TIMEOUT != stb_cnt)) {
             osci_stat = rcu_flag_get(RCU_FLAG_IRC8MSTB);
             stb_cnt++;
         }
         /* check whether flag is set or not */
-        if(RESET != rcu_flag_get(RCU_FLAG_IRC8MSTB)){
+        if(RESET != rcu_flag_get(RCU_FLAG_IRC8MSTB)) {
             reval = SUCCESS;
         }
         break;
 
     /* wait IRC28M stable */
     case RCU_IRC28M:
-        while((RESET == osci_stat) && (OSC_STARTUP_TIMEOUT != stb_cnt)){
+        while((RESET == osci_stat) && (OSC_STARTUP_TIMEOUT != stb_cnt)) {
             osci_stat = rcu_flag_get(RCU_FLAG_IRC28MSTB);
             stb_cnt++;
         }
         /* check whether flag is set or not */
-        if(RESET != rcu_flag_get(RCU_FLAG_IRC28MSTB)){
+        if(RESET != rcu_flag_get(RCU_FLAG_IRC28MSTB)) {
             reval = SUCCESS;
         }
         break;
-        
+
     /* wait IRC40K stable */
     case RCU_IRC40K:
-        while((RESET == osci_stat) && (OSC_STARTUP_TIMEOUT != stb_cnt)){
+        while((RESET == osci_stat) && (OSC_STARTUP_TIMEOUT != stb_cnt)) {
             osci_stat = rcu_flag_get(RCU_FLAG_IRC40KSTB);
             stb_cnt++;
         }
         /* check whether flag is set or not */
-        if(RESET != rcu_flag_get(RCU_FLAG_IRC40KSTB)){
+        if(RESET != rcu_flag_get(RCU_FLAG_IRC40KSTB)) {
             reval = SUCCESS;
         }
         break;
 
     /* wait PLL stable */
     case RCU_PLL_CK:
-        while((RESET == osci_stat) && (OSC_STARTUP_TIMEOUT != stb_cnt)){
+        while((RESET == osci_stat) && (OSC_STARTUP_TIMEOUT != stb_cnt)) {
             osci_stat = rcu_flag_get(RCU_FLAG_PLLSTB);
             stb_cnt++;
         }
         /* check whether flag is set or not */
-        if(RESET != rcu_flag_get(RCU_FLAG_PLLSTB)){
+        if(RESET != rcu_flag_get(RCU_FLAG_PLLSTB)) {
             reval = SUCCESS;
         }
         break;
-   
+
     default:
         break;
     }
@@ -638,7 +638,7 @@ void rcu_osci_off(rcu_osci_type_enum osci)
 void rcu_osci_bypass_mode_enable(rcu_osci_type_enum osci)
 {
     uint32_t reg;
-    switch(osci){
+    switch(osci) {
     case RCU_HXTAL:
         /* HXTALEN must be reset before enable the oscillator bypass mode */
         reg = RCU_CTL0;
@@ -673,7 +673,7 @@ void rcu_osci_bypass_mode_enable(rcu_osci_type_enum osci)
 void rcu_osci_bypass_mode_disable(rcu_osci_type_enum osci)
 {
     uint32_t reg;
-    switch(osci){
+    switch(osci) {
     case RCU_HXTAL:
         /* HXTALEN must be reset before disable the oscillator bypass mode */
         reg = RCU_CTL0;
@@ -730,7 +730,7 @@ void rcu_irc8m_adjust_value_set(uint8_t irc8m_adjval)
     adjust = RCU_CTL0;
     /* reset the IRC8MADJ bits and set according to irc8m_adjval */
     adjust &= ~RCU_CTL0_IRC8MADJ;
-    RCU_CTL0 = (adjust | (((uint32_t)irc8m_adjval)<<3));
+    RCU_CTL0 = (adjust | (((uint32_t)irc8m_adjval) << 3));
 }
 
 /*!
@@ -745,7 +745,7 @@ void rcu_irc28m_adjust_value_set(uint8_t irc28m_adjval)
     adjust = RCU_CTL1;
     /* reset the IRC28MADJ bits and set according to irc28m_adjval */
     adjust &= ~RCU_CTL1_IRC28MADJ;
-    RCU_CTL1 = (adjust | (((uint32_t)irc28m_adjval)<<3));
+    RCU_CTL1 = (adjust | (((uint32_t)irc28m_adjval) << 3));
 }
 
 /*!
@@ -804,7 +804,7 @@ uint32_t rcu_clock_freq_get(rcu_clock_freq_enum clock)
     const uint8_t apb2_exp[8] = {0, 0, 0, 0, 1, 2, 3, 4};
 
     sws = GET_BITS(RCU_CFG0, 2, 3);
-    switch(sws){
+    switch(sws) {
     /* IRC8M is selected as CK_SYS */
     case SEL_IRC8M:
         cksys_freq = IRC8M_VALUE;
@@ -819,20 +819,20 @@ uint32_t rcu_clock_freq_get(rcu_clock_freq_enum clock)
         pllmf = GET_BITS(RCU_CFG0, 18, 21);
         pllmf4 = GET_BITS(RCU_CFG0, 27, 27);
         /* high 16 bits */
-        if(1U == pllmf4){
+        if(1U == pllmf4) {
             pllmf += 17U;
-        }else if(15U == pllmf){
+        } else if(15U == pllmf) {
             pllmf = 16U;
-        }else{
+        } else {
             pllmf += 2U;
         }
-            
+
         /* PLL clock source selection, HXTAL or IRC8M/2 */
         pllsel = GET_BITS(RCU_CFG0, 16, 16);
-        if(0U != pllsel){
+        if(0U != pllsel) {
             prediv = (GET_BITS(RCU_CFG1, 0, 3) + 1U);
             cksys_freq = (HXTAL_VALUE / prediv) * pllmf;
-        }else{
+        } else {
             cksys_freq = (IRC8M_VALUE >> 1) * pllmf;
         }
         break;
@@ -845,19 +845,19 @@ uint32_t rcu_clock_freq_get(rcu_clock_freq_enum clock)
     idx = GET_BITS(RCU_CFG0, 4, 7);
     clk_exp = ahb_exp[idx];
     ahb_freq = cksys_freq >> clk_exp;
-    
+
     /* calculate APB1 clock frequency */
     idx = GET_BITS(RCU_CFG0, 8, 10);
     clk_exp = apb1_exp[idx];
     apb1_freq = ahb_freq >> clk_exp;
-    
+
     /* calculate APB2 clock frequency */
     idx = GET_BITS(RCU_CFG0, 11, 13);
     clk_exp = apb2_exp[idx];
     apb2_freq = ahb_freq >> clk_exp;
-    
+
     /* return the clocks frequency */
-    switch(clock){
+    switch(clock) {
     case CK_SYS:
         ck_freq = cksys_freq;
         break;
@@ -872,43 +872,43 @@ uint32_t rcu_clock_freq_get(rcu_clock_freq_enum clock)
         break;
     case CK_ADC:
         /* calculate ADC clock frequency */
-        if(RCU_ADCSRC_AHB_APB2DIV != (RCU_CFG2 & RCU_CFG2_ADCSEL)){
-            if(RCU_ADC_IRC28M_DIV1 != (RCU_CFG2 & RCU_CFG2_IRC28MDIV)){
+        if(RCU_ADCSRC_AHB_APB2DIV != (RCU_CFG2 & RCU_CFG2_ADCSEL)) {
+            if(RCU_ADC_IRC28M_DIV1 != (RCU_CFG2 & RCU_CFG2_IRC28MDIV)) {
                 adc_freq = IRC28M_VALUE >> 1;
-            }else{
+            } else {
                 adc_freq = IRC28M_VALUE;
             }
-        }else{
+        } else {
             /* ADC clock select CK_APB2 divided by 2/4/6/8 or CK_AHB divided by 3/5/7/9 */
             adcps = GET_BITS(RCU_CFG0, 14, 15);
             adcps2 = GET_BITS(RCU_CFG2, 31, 31);
-            switch(adcps){
+            switch(adcps) {
             case 0:
-                if(0U == adcps2){
-                   adc_freq = apb2_freq / 2U;
-                }else{
-                   adc_freq = ahb_freq / 3U;
+                if(0U == adcps2) {
+                    adc_freq = apb2_freq / 2U;
+                } else {
+                    adc_freq = ahb_freq / 3U;
                 }
                 break;
             case 1:
-                if(0U == adcps2){
-                   adc_freq = apb2_freq / 4U;
-                }else{
-                   adc_freq = ahb_freq / 5U;
+                if(0U == adcps2) {
+                    adc_freq = apb2_freq / 4U;
+                } else {
+                    adc_freq = ahb_freq / 5U;
                 }
                 break;
             case 2:
-                if(0U == adcps2){
-                   adc_freq = apb2_freq / 6U;
-                }else{
-                   adc_freq = ahb_freq / 7U;
+                if(0U == adcps2) {
+                    adc_freq = apb2_freq / 6U;
+                } else {
+                    adc_freq = ahb_freq / 7U;
                 }
                 break;
             case 3:
-                if(0U == adcps2){
-                   adc_freq = apb2_freq / 8U;
-                }else{
-                   adc_freq = ahb_freq / 9U;
+                if(0U == adcps2) {
+                    adc_freq = apb2_freq / 8U;
+                } else {
+                    adc_freq = ahb_freq / 9U;
                 }
                 break;
             default:
@@ -919,15 +919,15 @@ uint32_t rcu_clock_freq_get(rcu_clock_freq_enum clock)
         break;
     case CK_USART:
         /* calculate USART0 clock frequency */
-        if(RCU_USART0SRC_CKAPB2 == (RCU_CFG2 & RCU_CFG2_USART0SEL)){
+        if(RCU_USART0SRC_CKAPB2 == (RCU_CFG2 & RCU_CFG2_USART0SEL)) {
             usart_freq = apb2_freq;
-        }else if(RCU_USART0SRC_CKSYS == (RCU_CFG2 & RCU_CFG2_USART0SEL)){
+        } else if(RCU_USART0SRC_CKSYS == (RCU_CFG2 & RCU_CFG2_USART0SEL)) {
             usart_freq = cksys_freq;
-        }else if(RCU_USART0SRC_LXTAL == (RCU_CFG2 & RCU_CFG2_USART0SEL)){
+        } else if(RCU_USART0SRC_LXTAL == (RCU_CFG2 & RCU_CFG2_USART0SEL)) {
             usart_freq = LXTAL_VALUE;
-        }else if(RCU_USART0SRC_IRC8M == (RCU_CFG2 & RCU_CFG2_USART0SEL)){
+        } else if(RCU_USART0SRC_IRC8M == (RCU_CFG2 & RCU_CFG2_USART0SEL)) {
             usart_freq = IRC8M_VALUE;
-        }else{
+        } else {
         }
         ck_freq = usart_freq;
         break;
@@ -960,9 +960,9 @@ uint32_t rcu_clock_freq_get(rcu_clock_freq_enum clock)
 */
 FlagStatus rcu_flag_get(rcu_flag_enum flag)
 {
-    if(RESET != (RCU_REG_VAL(flag) & BIT(RCU_BIT_POS(flag)))){
+    if(RESET != (RCU_REG_VAL(flag) & BIT(RCU_BIT_POS(flag)))) {
         return SET;
-    }else{
+    } else {
         return RESET;
     }
 }
@@ -994,9 +994,9 @@ void rcu_all_reset_flag_clear(void)
 */
 FlagStatus rcu_interrupt_flag_get(rcu_int_flag_enum int_flag)
 {
-    if(RESET != (RCU_REG_VAL(int_flag) & BIT(RCU_BIT_POS(int_flag)))){
+    if(RESET != (RCU_REG_VAL(int_flag) & BIT(RCU_BIT_POS(int_flag)))) {
         return SET;
-    }else{
+    } else {
         return RESET;
     }
 }

@@ -5,7 +5,7 @@
 */
 
 /* Copyright (c) 2012 ARM LIMITED
-   Copyright (c) 2023, GigaDevice Semiconductor Inc.
+   Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
    All rights reserved.
    Redistribution and use in source and binary forms, with or without
@@ -43,6 +43,9 @@ extern "C" {
 
 #include <stdint.h>
 
+/* firmware version can be acquired by uncommenting the macro */
+#define __FIRMWARE_VERSION_DEFINE
+
 /* system clock frequency (core clock) */
 extern uint32_t SystemCoreClock;
 
@@ -52,6 +55,10 @@ extern void SystemInit (void);
 /* update the SystemCoreClock with current core clock retrieved from cpu registers */
 extern void SystemCoreClockUpdate (void);
 
+#ifdef __FIRMWARE_VERSION_DEFINE
+/* get firmware version */
+extern uint32_t gd32e23x_firmware_version_get(void);
+#endif /* __FIRMWARE_VERSION_DEFINE */
 #ifdef __cplusplus
 }
 #endif

@@ -1,9 +1,9 @@
 project(GD32E235C_EVAL LANGUAGES C CXX ASM)
 
-add_library(GD32E235C_EVAL OBJECT 
+add_library(GD32E235C_EVAL OBJECT
+    ${DRIVERS_DIR}/BSP/GD32E235C_EVAL/LCD_Common/lcd_log.c
     ${DRIVERS_DIR}/BSP/GD32E235C_EVAL/gd32e235c_eval.c
     ${DRIVERS_DIR}/BSP/GD32E235C_EVAL/gd32e235c_lcd_eval.c
-    ${DRIVERS_DIR}/BSP/GD32E235C_EVAL/LCD_Common/lcd_log.c
     )
 
 target_include_directories(GD32E235C_EVAL PUBLIC

@@ -2,11 +2,11 @@
     \file    gd32e235k_start.c
     \brief   firmware functions to manage leds, keys ports
 
-    \version 2024-02-28, V2.2.0, demo for GD32E235
+    \version 2025-02-10, V2.4.0, demo for GD32E23x
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc.
+    Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -53,7 +53,7 @@ static const uint8_t KEY_PORT_SOURCE[KEYn]      = {WAKEUP_KEY_EXTI_PORT_SOURCE};
 
 static const uint8_t KEY_PIN_SOURCE[KEYn]       = {WAKEUP_KEY_EXTI_PIN_SOURCE};
 
-static const uint8_t KEY_IRQn[KEYn]             = {WAKEUP_KEY_EXTI_IRQn};
+static const IRQn_Type KEY_IRQn[KEYn]             = {WAKEUP_KEY_EXTI_IRQn};
 
 /* eval board low layer private functions */
 /*!

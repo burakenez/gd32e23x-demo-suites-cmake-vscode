@@ -2,11 +2,11 @@
     \file    main.c
     \brief   USART printf
 
-    \version 2024-02-28, V2.2.0, demo for GD32E231
+    \version 2025-02-10, V2.4.0, demo for GD32E23x
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc.
+    Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -58,7 +58,7 @@ int main(void)
 }
 
 /*!
-    \brief      initilize the com GPIO
+    \brief      initialize the com GPIO
     \param[in]  none
     \param[out] none
     \retval     none
@@ -84,7 +84,7 @@ void com_gpio_init(void)
 }
 
 /*!
-    \brief      initilize the USART configuration of the com
+    \brief      initialize the USART configuration of the com
     \param[in]  none
     \param[out] none
     \retval     none
@@ -106,10 +106,20 @@ void com_usart_init(void)
     usart_enable(USART0);
 }
 
-/* retarget the C library printf function to the USART */
-int fputc(int ch, FILE *f)
+#ifdef __GNUC__
+/* retarget the C library printf function to the usart, in Eclipse GCC environment */
+int __io_putchar(int ch)
 {
-    usart_data_transmit(USART0, (uint8_t) ch);
+    usart_data_transmit(USART0, (uint8_t)ch);
     while(RESET == usart_flag_get(USART0, USART_FLAG_TBE));
     return ch;
 }
+#else
+/* retarget the C library printf function to the usart */
+int fputc(int ch, FILE *f)
+{
+    usart_data_transmit(USART0, (uint8_t)ch);
+    while(RESET == usart_flag_get(USART0, USART_FLAG_TBE));
+    return ch;
+}
+#endif /* __GNUC__ */

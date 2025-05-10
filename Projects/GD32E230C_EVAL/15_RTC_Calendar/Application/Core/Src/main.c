@@ -2,11 +2,11 @@
     \file  main.c
     \brief RTC calendar
     
-    \version 2024-02-28, V2.2.0, demo for GD32E230
+    \version 2025-02-10, V2.4.0, demo for GD32E23x
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc.
+    Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
@@ -195,7 +195,7 @@ void rtc_pre_config(void)
           /* wait till IRC40K is ready */
           rcu_osci_stab_wait(RCU_LXTAL);
           /* select the RTC clock source */
-          rcu_rtc_clock_config(RCU_LXTAL);
+          rcu_rtc_clock_config(RCU_RTCSRC_LXTAL);
           
           prescaler_s = 0xFF;
           prescaler_a = 0x7F;

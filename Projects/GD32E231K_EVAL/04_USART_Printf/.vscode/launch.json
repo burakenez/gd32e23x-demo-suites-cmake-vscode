@@ -12,9 +12,13 @@
             "gdbPath": "${workspaceFolder}/../../../Tools/xpack-arm-none-eabi-gcc-11.3.1-1.1/bin/arm-none-eabi-gdb.exe",
             "servertype": "openocd",
             "serverpath": "${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/bin/openocd.exe",
-            "svdFile": "${workspaceFolder}/GD32E231.svd",
+            "svdFile": "${workspaceFolder}/GD32E231.svd",			
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 1
+            },
             "configFiles": [
-                "${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/scripts/target/openocd_gdlink_gd32e23x.cfg"
+                "${workspaceFolder}/../../../Tools/xpack-openocd-0.11.0-3/scripts/target/${OPENOCD_TARGET_SCRIPT_FILE}"
             ],
             "searchDir": [
                 "${workspaceFolder}"

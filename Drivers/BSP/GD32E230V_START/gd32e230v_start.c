@@ -2,11 +2,11 @@
     \file    gd32e230v_start.c
     \brief   firmware functions to manage leds, keys ports
 
-    \version 2024-02-28, V2.2.0, demo for GD32E230
+    \version 2025-02-10, V2.4.0, demo for GD32E23x
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc.
+    Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -35,11 +35,11 @@ OF SUCH DAMAGE.
 #include "gd32e230v_start.h"
 
 /* private variables */
-static const uint32_t GPIO_PORT[LEDn]       = {LED1_GPIO_PORT};
+static const uint32_t GPIO_PORT[LEDn]       = {LED1_GPIO_PORT, LED2_GPIO_PORT};
 
-static const uint32_t GPIO_PIN[LEDn]        = {LED1_PIN};
+static const uint32_t GPIO_PIN[LEDn]        = {LED1_PIN, LED2_PIN};
 
-static const rcu_periph_enum GPIO_CLK[LEDn] = {LED1_GPIO_CLK};
+static const rcu_periph_enum GPIO_CLK[LEDn] = {LED1_GPIO_CLK, LED2_GPIO_CLK};
 
 static const uint32_t KEY_PORT[KEYn]        = {USER_KEY_GPIO_PORT};
 
@@ -53,13 +53,14 @@ static const uint8_t KEY_PORT_SOURCE[KEYn]      = {USER_KEY_EXTI_PORT_SOURCE};
 
 static const uint8_t KEY_PIN_SOURCE[KEYn]       = {USER_KEY_EXTI_PIN_SOURCE};
 
-static const uint8_t KEY_IRQn[KEYn]             = {USER_KEY_EXTI_IRQn};
+static const IRQn_Type KEY_IRQn[KEYn]             = {USER_KEY_EXTI_IRQn};
 
 /* eval board low layer private functions */
 /*!
     \brief      configure led GPIO
     \param[in]  lednum: specify the led to be configured
       \arg        LED1
+      \arg        LED2
     \param[out] none
     \retval     none
 */
@@ -78,6 +79,7 @@ void gd_eval_led_init(led_typedef_enum lednum)
     \brief      turn on selected led
     \param[in]  lednum: specify the led to be turned on
       \arg        LED1
+      \arg        LED2
     \param[out] none
     \retval     none
 */
@@ -90,6 +92,7 @@ void gd_eval_led_on(led_typedef_enum lednum)
     \brief      turn off selected led
     \param[in]  lednum: specify the led to be turned off
       \arg        LED1
+      \arg        LED2
     \param[out] none
     \retval     none
 */
@@ -102,6 +105,7 @@ void gd_eval_led_off(led_typedef_enum lednum)
     \brief      toggle selected led
     \param[in]  lednum: specify the led to be toggled
       \arg        LED1
+      \arg        LED2
     \param[out] none
     \retval     none
 */
@@ -113,7 +117,7 @@ void gd_eval_led_toggle(led_typedef_enum lednum)
 /*!
     \brief      configure key
     \param[in]  keynum: specify the key to be configured
-      \arg        KEY_USER: user key
+      \arg        KEY_USER: Wakeup key
     \param[in]  keymode: specify button mode
       \arg        KEY_MODE_GPIO: key will be used as simple IO
       \arg        KEY_MODE_EXTI: key will be connected to EXTI line with interrupt
@@ -145,7 +149,7 @@ void gd_eval_key_init(key_typedef_enum keynum, keymode_typedef_enum keymode)
 /*!
     \brief      return the selected key state
     \param[in]  keynum: specify the key to be checked
-      \arg        KEY_USER: user key
+      \arg        KEY_USER: Wakeup key
     \param[out] none
     \retval     the key's GPIO pin value
 */

@@ -1,9 +1,7 @@
 project(GD32E231K_EVAL LANGUAGES C CXX ASM)
 
-add_library(GD32E231K_EVAL OBJECT 
+add_library(GD32E231K_EVAL OBJECT
     ${DRIVERS_DIR}/BSP/GD32E231K_EVAL/gd32e231k_eval.c
-    ${DRIVERS_DIR}/BSP/GD32E231K_EVAL/gd32e231k_lcd_eval.c
-    ${DRIVERS_DIR}/BSP/GD32E231K_EVAL/LCD_Common/lcd_log.c
     )
 
 target_include_directories(GD32E231K_EVAL PUBLIC

@@ -2,11 +2,11 @@
     \file  rc5_decode.h
     \brief the header file of rc5 infrared decoding
     
-    \version 2024-02-28, V2.2.0, demo for GD32E235
+    \version 2025-02-10, V2.4.0, demo for GD32E23x
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc.
+    Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:

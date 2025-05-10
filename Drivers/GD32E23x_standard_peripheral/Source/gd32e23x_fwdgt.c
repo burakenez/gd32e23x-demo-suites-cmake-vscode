@@ -1,36 +1,36 @@
 /*!
     \file    gd32e23x_fwdgt.c
     \brief   FWDGT driver
-    
-    \version 2024-02-22, V2.1.0, firmware for GD32E23x
+
+    \version 2025-02-10, V2.3.0, firmware for GD32E23x
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc.
+    Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
     All rights reserved.
 
-    Redistribution and use in source and binary forms, with or without modification, 
+    Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
 
-    1. Redistributions of source code must retain the above copyright notice, this 
+    1. Redistributions of source code must retain the above copyright notice, this
        list of conditions and the following disclaimer.
-    2. Redistributions in binary form must reproduce the above copyright notice, 
-       this list of conditions and the following disclaimer in the documentation 
+    2. Redistributions in binary form must reproduce the above copyright notice,
+       this list of conditions and the following disclaimer in the documentation
        and/or other materials provided with the distribution.
-    3. Neither the name of the copyright holder nor the names of its contributors 
-       may be used to endorse or promote products derived from this software without 
+    3. Neither the name of the copyright holder nor the names of its contributors
+       may be used to endorse or promote products derived from this software without
        specific prior written permission.
 
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
-NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
 OF SUCH DAMAGE.
 */
 
@@ -87,21 +87,21 @@ ErrStatus fwdgt_prescaler_value_config(uint16_t prescaler_value)
 {
     uint32_t timeout = FWDGT_PSC_TIMEOUT;
     uint32_t flag_status = RESET;
-  
+
     /* enable write access to FWDGT_PSC */
     FWDGT_CTL = FWDGT_WRITEACCESS_ENABLE;
-  
+
     /* wait until the PUD flag to be reset */
-    do{
+    do {
         flag_status = FWDGT_STAT & FWDGT_STAT_PUD;
-    }while((--timeout > 0U) && ((uint32_t)RESET != flag_status));
-    
-    if ((uint32_t)RESET != flag_status){
+    } while((--timeout > 0U) && ((uint32_t)RESET != flag_status));
+
+    if((uint32_t)RESET != flag_status) {
         return ERROR;
     }
-    
+
     /* configure FWDGT */
-    FWDGT_PSC = (uint32_t)prescaler_value; 
+    FWDGT_PSC = (uint32_t)prescaler_value;
 
     return SUCCESS;
 }
@@ -116,19 +116,19 @@ ErrStatus fwdgt_reload_value_config(uint16_t reload_value)
 {
     uint32_t timeout = FWDGT_RLD_TIMEOUT;
     uint32_t flag_status = RESET;
-  
+
     /* enable write access to FWDGT_RLD */
     FWDGT_CTL = FWDGT_WRITEACCESS_ENABLE;
-  
+
     /* wait until the RUD flag to be reset */
-    do{
+    do {
         flag_status = FWDGT_STAT & FWDGT_STAT_RUD;
-    }while((--timeout > 0U) && ((uint32_t)RESET != flag_status));
-   
-    if ((uint32_t)RESET != flag_status){
+    } while((--timeout > 0U) && ((uint32_t)RESET != flag_status));
+
+    if((uint32_t)RESET != flag_status) {
         return ERROR;
     }
-    
+
     FWDGT_RLD = RLD_RLD(reload_value);
 
     return SUCCESS;
@@ -149,14 +149,14 @@ ErrStatus fwdgt_window_value_config(uint16_t window_value)
     FWDGT_CTL = FWDGT_WRITEACCESS_ENABLE;
 
     /* wait until the WUD flag to be reset */
-    do{
+    do {
         flag_status = FWDGT_STAT & FWDGT_STAT_WUD;
-    }while((--time_index > 0U) && ((uint32_t)RESET != flag_status));
+    } while((--time_index > 0U) && ((uint32_t)RESET != flag_status));
 
-    if ((uint32_t)RESET != flag_status){
-        return ERROR; 
+    if((uint32_t)RESET != flag_status) {
+        return ERROR;
     }
-    
+
     FWDGT_WND = WND_WND(window_value);
 
     return SUCCESS;
@@ -192,43 +192,43 @@ ErrStatus fwdgt_config(uint16_t reload_value, uint8_t prescaler_div)
 {
     uint32_t timeout = FWDGT_PSC_TIMEOUT;
     uint32_t flag_status = RESET;
-  
+
     /* enable write access to FWDGT_PSC,and FWDGT_RLD */
     FWDGT_CTL = FWDGT_WRITEACCESS_ENABLE;
-  
-    /* wait until the PUD flag to be reset */
-    do{
-        flag_status = FWDGT_STAT & FWDGT_STAT_PUD;
-    }while((--timeout > 0U) && ((uint32_t)RESET != flag_status));
-    
-    if ((uint32_t)RESET != flag_status){
-        return ERROR;
-    }
-    
-    /* configure FWDGT */
-    FWDGT_PSC = (uint32_t)prescaler_div;       
 
-    timeout = FWDGT_RLD_TIMEOUT;    
-    /* wait until the RUD flag to be reset */
-    do{
-        flag_status = FWDGT_STAT & FWDGT_STAT_RUD;
-    }while((--timeout > 0U) && ((uint32_t)RESET != flag_status));
-   
-    if ((uint32_t)RESET != flag_status){
+    /* wait until the PUD flag to be reset */
+    do {
+        flag_status = FWDGT_STAT & FWDGT_STAT_PUD;
+    } while((--timeout > 0U) && ((uint32_t)RESET != flag_status));
+
+    if((uint32_t)RESET != flag_status) {
         return ERROR;
     }
-    
+
+    /* configure FWDGT */
+    FWDGT_PSC = (uint32_t)prescaler_div;
+
+    timeout = FWDGT_RLD_TIMEOUT;
+    /* wait until the RUD flag to be reset */
+    do {
+        flag_status = FWDGT_STAT & FWDGT_STAT_RUD;
+    } while((--timeout > 0U) && ((uint32_t)RESET != flag_status));
+
+    if((uint32_t)RESET != flag_status) {
+        return ERROR;
+    }
+
     FWDGT_RLD = RLD_RLD(reload_value);
-    
+
     /* reload the counter */
     FWDGT_CTL = FWDGT_KEY_RELOAD;
-    
+
     return SUCCESS;
 }
 
 /*!
     \brief      get flag state of FWDGT
-    \param[in]  flag: flag to get 
+    \param[in]  flag: flag to get
                 only one parameter can be selected which is shown as below:
       \arg        FWDGT_FLAG_PUD: a write operation to FWDGT_PSC register is on going
       \arg        FWDGT_FLAG_RUD: a write operation to FWDGT_RLD register is on going
@@ -238,7 +238,7 @@ ErrStatus fwdgt_config(uint16_t reload_value, uint8_t prescaler_div)
 */
 FlagStatus fwdgt_flag_get(uint16_t flag)
 {
-    if(RESET != (FWDGT_STAT & flag)){
+    if(RESET != (FWDGT_STAT & flag)) {
         return SET;
     }
     return RESET;

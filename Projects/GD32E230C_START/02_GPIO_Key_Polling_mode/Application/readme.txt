@@ -1,12 +1,12 @@
 /*!
-    \file    gd32e23x_it.c
-    \brief   interrupt service routines
+    \file    readme.txt
+    \brief   description of GPIO Key Polling mode example
     
-    \version 2024-02-28, V2.2.0, demo for GD32E230
+    \version 2025-02-10, V2.4.0, demo for GD32E23x
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc.
+    Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
@@ -32,68 +32,12 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 OF SUCH DAMAGE.
 */
 
-#include "gd32e23x_it.h"
-#include "systick.h"
+  This example is based on the GD32E230C-START-V1.0 board, it provides a description
+of GPIO key demo. It uses Mini USB interface to supply power. Wakeup button key, LED and 
+GD-Link are also included.
+  
+  After system start-up, firstly, LED1, LED2, LED3 and LED4 are flashed once for test 
+and LED1 is on. The user can toggle the output state of LED1 by pressing the Wakeup key.
 
-/*!
-    \brief      this function handles NMI exception
-    \param[in]  none
-    \param[out] none
-    \retval     none
-*/
-void NMI_Handler(void)
-{
-    /* if NMI exception occurs, go to infinite loop */
-    while(1) {
-    }
-}
-
-/*!
-    \brief      this function handles HardFault exception
-    \param[in]  none
-    \param[out] none
-    \retval     none
-*/
-void HardFault_Handler(void)
-{
-    /* if Hard Fault exception occurs, go to infinite loop */
-    while(1) {
-    }
-}
-
-/*!
-    \brief      this function handles SVC exception
-    \param[in]  none
-    \param[out] none
-    \retval     none
-*/
-void SVC_Handler(void)
-{
-    /* if SVC exception occurs, go to infinite loop */
-    while(1) {
-    }
-}
-
-/*!
-    \brief      this function handles PendSV exception
-    \param[in]  none
-    \param[out] none
-    \retval     none
-*/
-void PendSV_Handler(void)
-{
-    /* if PendSV exception occurs, go to infinite loop */
-    while(1) {
-    }
-}
-
-/*!
-    \brief      this function handles SysTick exception
-    \param[in]  none
-    \param[out] none
-    \retval     none
-*/
-void SysTick_Handler(void)
-{
-    delay_decrement();
-}
+  On the GD32E230C-START board, LED1 is connected to PA7, LED2 is connected to PA8, LED3
+is connected to PA11, LED4 is connected to PA12. Wakeup key is connected to PA0.

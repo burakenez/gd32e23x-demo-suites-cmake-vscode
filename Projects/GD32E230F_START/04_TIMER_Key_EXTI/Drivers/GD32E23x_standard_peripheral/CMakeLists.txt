@@ -2,7 +2,7 @@ project(GD32E23x_standard_peripheral LANGUAGES C CXX ASM)
 
 # Comment-out unused source files.
 add_library(GD32E23x_standard_peripheral OBJECT
-    ${DRIVERS_DIR}/GD32E23x_standard_peripheral/Source/gd32e23x_adc.c
+	${DRIVERS_DIR}/GD32E23x_standard_peripheral/Source/gd32e23x_adc.c
     ${DRIVERS_DIR}/GD32E23x_standard_peripheral/Source/gd32e23x_cmp.c
     ${DRIVERS_DIR}/GD32E23x_standard_peripheral/Source/gd32e23x_crc.c
     ${DRIVERS_DIR}/GD32E23x_standard_peripheral/Source/gd32e23x_dbg.c

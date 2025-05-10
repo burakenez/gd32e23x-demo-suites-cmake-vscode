@@ -2,11 +2,11 @@
     \file  gd32e23x_cmp.h
     \brief definitions for the CMP
 
-    \version 2024-02-22, V2.1.0, firmware for GD32E23x
+    \version 2025-02-10, V2.3.0, firmware for GD32E23x
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc.
+    Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -83,7 +83,8 @@ typedef enum{
 #define CMP_INVERTING_INPUT_VREFINT              CS_CMPXMSEL(3)                 /*!< CMP inverting input Vrefint */
 #define CMP_INVERTING_INPUT_PA4                  CS_CMPXMSEL(4)                 /*!< CMP inverting input PA4 */
 #define CMP_INVERTING_INPUT_PA5                  CS_CMPXMSEL(5)                 /*!< CMP inverting input PA5 */
-#define CMP_INVERTING_INPUT_PA0_PA2              CS_CMPXMSEL(6)                 /*!< CMP inverting input PA0 for CMP0 or PA2 for CMP1 */
+#define CMP_INVERTING_INPUT_PA0                  CS_CMPXMSEL(6)                 /*!< CMP inverting input PA0 */
+#define CMP_INVERTING_INPUT_PA2                  CS_CMPXMSEL(7)                 /*!< CMP inverting input PA2 */
 
 /* CMP output */
 #define CS_CMPXOSEL(regval)                      (BITS(8,10) & ((uint32_t)(regval) << 8U))

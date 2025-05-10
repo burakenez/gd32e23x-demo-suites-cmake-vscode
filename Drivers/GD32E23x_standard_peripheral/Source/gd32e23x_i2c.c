@@ -2,11 +2,11 @@
     \file    gd32e23x_i2c.c
     \brief   I2C driver
 
-    \version 2024-02-22, V2.1.0, firmware for GD32E23x
+    \version 2025-02-10, V2.3.0, firmware for GD32E23x
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc.
+    Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -395,6 +395,27 @@ void i2c_dma_last_transfer_config(uint32_t i2c_periph, uint32_t dmalast)
     ctl = I2C_CTL1(i2c_periph);
     ctl &= ~(I2C_CTL1_DMALST);
     ctl |= dmalast;
+    I2C_CTL1(i2c_periph) = ctl;
+}
+
+/*!
+    \brief      configure RBNE clear mode
+    \param[in]  i2c_periph: I2Cx(x=0,1)
+    \param[in]  mode:
+                only one parameter can be selected which is shown as below:
+      \arg        I2C_RBNE_CLEAR_BTC_0: RBNE can be cleared when I2C_DATA is read and BTC is cleared
+      \arg        I2C_RBNE_CLEAR: RBNE can be cleared when I2C_DATA is read
+    \param[out] none
+    \retval     none
+*/
+void i2c_rbne_clear_config(uint32_t i2c_periph, uint32_t mode)
+{
+    /* configure RBNE clear mode */
+    uint32_t ctl = 0U;
+
+    ctl = I2C_CTL1(i2c_periph);
+    ctl &= ~(I2C_CTL1_RBNECM);
+    ctl |= mode;
     I2C_CTL1(i2c_periph) = ctl;
 }
 

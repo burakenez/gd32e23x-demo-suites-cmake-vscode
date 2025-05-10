@@ -6,6 +6,6 @@ target_include_directories(CMSIS INTERFACE
     ${DRIVERS_DIR}/CMSIS/
     ${DRIVERS_DIR}/CMSIS/GD/GD32E23x/Include
 
-    # Add "gd32e23x_libopt.h" path.
+	# Added directory of "gd32e23x_libopt.h".
     ${CMAKE_SOURCE_DIR}/Application/Core/Inc
     )

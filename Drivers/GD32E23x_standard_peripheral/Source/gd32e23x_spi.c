@@ -2,11 +2,11 @@
     \file    gd32e23x_spi.c
     \brief   SPI driver
 
-    \version 2024-02-22, V2.1.0, firmware for GD32E23x
+    \version 2025-02-10, V2.3.0, firmware for GD32E23x
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc.
+    Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -115,7 +115,7 @@ void spi_struct_para_init(spi_parameter_struct *spi_struct)
 */
 ErrStatus spi_init(uint32_t spi_periph, spi_parameter_struct *spi_struct)
 {
-    uint32_t reg1 = 0, reg2 = 0U, reg3 = 0U;
+    uint32_t reg1 = 0U, reg2 = 0U, reg3 = 0U;
 
     reg1 = SPI_CTL0(spi_periph);
     reg1 &= SPI_INIT_MASK;
@@ -211,7 +211,7 @@ void spi_disable(uint32_t spi_periph)
       \arg        I2S_MODE_MASTERRX: I2S master receive mode
     \param[in]  standard: I2S standard
                 only one parameter can be selected which is shown as below:
-      \arg        I2S_STD_PHILLIPS: I2S phillips standard
+      \arg        I2S_STD_PHILIPS: I2S phillips standard
       \arg        I2S_STD_MSB: I2S MSB standard
       \arg        I2S_STD_LSB: I2S LSB standard
       \arg        I2S_STD_PCMSHORT: I2S PCM short standard
@@ -577,7 +577,7 @@ uint16_t spi_i2s_data_receive(uint32_t spi_periph)
 /*!
     \brief      clear SPI/I2S format error flag status
     \param[in]  spi_periph: SPIx(x=0,1)
-    \param[in]  flag: SPI/I2S frame format error flag 
+    \param[in]  flag: SPI/I2S frame format error flag
       \arg        SPI_FLAG_FERR: only for SPI work in TI mode
       \arg        I2S_FLAG_FERR: for I2S
     \param[out] none
@@ -825,14 +825,14 @@ void spi_quad_io23_output_disable(uint32_t spi_periph)
       \arg        I2S_FLAG_CH: channel side flag
       \arg        I2S_FLAG_FERR: I2S format error interrupt flag
                 only for SPI1:
-      \arg        SPI_TXLVL_EMPTY: SPI TXFIFO is empty
-      \arg        SPI_TXLVL_QUARTER_FULL: SPI TXFIFO is a quarter of full
-      \arg        SPI_TXLVL_HAlF_FULL: SPI TXFIFO is a half of full
-      \arg        SPI_TXLVL_FULL: SPI TXFIFO is full
-      \arg        SPI_RXLVL_EMPTY: SPI RXFIFO is empty
-      \arg        SPI_RXLVL_QUARTER_FULL: SPI RXFIFO is a quarter of full
-      \arg        SPI_RXLVL_HAlF_FULL: SPI RXFIFO is a half of full
-      \arg        SPI_RXLVL_FULL: SPI RXFIFO is full
+      \arg        SPI_FLAG_TXLVL_EMPTY: SPI TXFIFO is empty
+      \arg        SPI_FLAG_TXLVL_QUARTER_FULL: SPI TXFIFO is a quarter of full
+      \arg        SPI_FLAG_TXLVL_HAlF_FULL: SPI TXFIFO is a half of full
+      \arg        SPI_FLAG_TXLVL_FULL: SPI TXFIFO is full
+      \arg        SPI_FLAG_RXLVL_EMPTY: SPI RXFIFO is empty
+      \arg        SPI_FLAG_RXLVL_QUARTER_FULL: SPI RXFIFO is a quarter of full
+      \arg        SPI_FLAG_RXLVL_HAlF_FULL: SPI RXFIFO is a half of full
+      \arg        SPI_FLAG_RXLVL_FULL: SPI RXFIFO is full
     \param[out] none
     \retval     FlagStatus: SET or RESET
 */

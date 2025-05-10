@@ -3,9 +3,8 @@ function(project_add_target_properties TARGET_NAME)
 target_compile_definitions(${TARGET_NAME} PRIVATE
     "$<$<CONFIG:Debug>:DEBUG>"
     "$<$<NOT:$<CONFIG:Debug>>:RELEASE>"
-    GD32E23x
-    GD32E235
-)
+	GD32E23X
+	)
 
 target_compile_options(${TARGET_NAME} PRIVATE
     "$<$<AND:$<CONFIG:Debug>,$<COMPILE_LANGUAGE:ASM>>:-g3>"
@@ -20,11 +19,11 @@ target_compile_options(${TARGET_NAME} PRIVATE
     "$<$<AND:$<NOT:$<CONFIG:Debug>>,$<COMPILE_LANGUAGE:C>>:-Os>"
     "$<$<AND:$<NOT:$<CONFIG:Debug>>,$<COMPILE_LANGUAGE:CXX>>:-Os>"
 
-    -mcpu=cortex-m23
+	-mcpu=cortex-m23
     )
 
 target_link_options(${TARGET_NAME} PRIVATE 
-    -mcpu=cortex-m23
+	-mcpu=cortex-m23
     -mthumb
     -u _printf_float
     -static

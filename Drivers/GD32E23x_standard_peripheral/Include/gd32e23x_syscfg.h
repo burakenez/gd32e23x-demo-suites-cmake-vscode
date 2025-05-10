@@ -1,12 +1,12 @@
 /*!
-    \file  GD32e23x_syscfg.h
+    \file  gd32e23x_syscfg.h
     \brief definitions for the SYSCFG
 
-    \version 2023-09-04, V2.0.1, firmware for GD32E23x
+    \version 2025-02-10, V2.3.0, firmware for GD32E23x
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc.
+    Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:

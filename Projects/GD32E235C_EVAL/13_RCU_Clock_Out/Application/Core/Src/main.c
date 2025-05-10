@@ -2,11 +2,11 @@
     \file  main.c
     \brief RCU clock out demo
 
-    \version 2024-02-28, V2.2.0, demo for GD32E235
+    \version 2025-02-10, V2.4.0, demo for GD32E23x
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc.
+    Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -238,11 +238,20 @@ void clock_output_select(uint8_t seq)
     }
 }
 
-/* retarget the C library printf function to the USART */
+#ifdef __GNUC__
+/* retarget the C library printf function to the usart, in Eclipse GCC environment */
+int __io_putchar(int ch)
+{
+    usart_data_transmit(EVAL_COM, (uint8_t)ch);
+    while(RESET == usart_flag_get(EVAL_COM, USART_FLAG_TBE));
+    return ch;
+}
+#else
+/* retarget the C library printf function to the usart */
 int fputc(int ch, FILE *f)
 {
     usart_data_transmit(EVAL_COM, (uint8_t)ch);
-    while(RESET == usart_flag_get(EVAL_COM, USART_FLAG_TC));
-
+    while(RESET == usart_flag_get(EVAL_COM, USART_FLAG_TBE));
     return ch;
 }
+#endif /* __GNUC__ */

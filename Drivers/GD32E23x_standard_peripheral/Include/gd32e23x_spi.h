@@ -2,11 +2,11 @@
     \file    gd32e23x_spi.h
     \brief   definitions for the SPI
 
-    \version 2024-02-22, V2.1.0, firmware for GD32E23x
+    \version 2025-02-10, V2.3.0, firmware for GD32E23x
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc.
+    Copyright (c) 2025, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -262,7 +262,7 @@ typedef struct {
 
 /* I2S standard */
 #define I2SCTL_I2SSTD(regval)           (BITS(4,5) & ((uint32_t)(regval) << 4))
-#define I2S_STD_PHILLIPS                I2SCTL_I2SSTD(0)                        /*!< I2S phillips standard */
+#define I2S_STD_PHILLIPS                I2SCTL_I2SSTD(0)                        /*!< I2S philips standard */
 #define I2S_STD_MSB                     I2SCTL_I2SSTD(1)                        /*!< I2S MSB standard */
 #define I2S_STD_LSB                     I2SCTL_I2SSTD(2)                        /*!< I2S LSB standard */
 #define I2S_STD_PCMSHORT                I2SCTL_I2SSTD(3)                        /*!< I2S PCM short standard */
@@ -309,6 +309,15 @@ typedef struct {
 #define I2S_FLAG_RXORERR                SPI_STAT_RXORERR                        /*!< overrun error flag */
 #define I2S_FLAG_TRANS                  SPI_STAT_TRANS                          /*!< transmit on-going flag */
 #define I2S_FLAG_FERR                   SPI_STAT_FERR                           /*!< format error flag */
+/* only for SPI1 */
+#define SPI_FLAG_TXLVL_EMPTY            ((uint32_t)0x10000000)                  /*!< SPI TXFIFO is empty */
+#define SPI_FLAG_TXLVL_QUARTER_FULL     SPI_TXLVL_QUARTER_FULL                  /*!< SPI TXFIFO is a quarter of full */
+#define SPI_FLAG_TXLVL_HAlF_FULL        SPI_TXLVL_HAlF_FULL                     /*!< SPI TXFIFO is a half of full */
+#define SPI_FLAG_TXLVL_FULL             SPI_TXLVL_FULL                          /*!< SPI TXFIFO is full */
+#define SPI_FLAG_RXLVL_EMPTY            ((uint32_t)0x20000000)                  /*!< SPI RXFIFO is empty */
+#define SPI_FLAG_RXLVL_QUARTER_FULL     SPI_RXLVL_QUARTER_FULL                  /*!< SPI RXFIFO is a quarter of full */
+#define SPI_FLAG_RXLVL_HAlF_FULL        SPI_RXLVL_HAlF_FULL                     /*!< SPI RXFIFO is a half of full */
+#define SPI_FLAG_RXLVL_FULL             SPI_RXLVL_FULL                          /*!< SPI RXFIFO is full */
 
 /* function declarations */
 /* SPI deinitialization and initialization functions */
